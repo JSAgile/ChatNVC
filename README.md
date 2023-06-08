@@ -26,30 +26,26 @@ ChatNVC is an iOS app designed to help users translate given phrases into Nonvio
     <td>
       <img src="Screenshots/Rephrase_3.png" alt="Rephrase 3">
     </td>
+    <td>
+      <img src="Screenshots/Rephrase_4.png" alt="Rephrase 3">
+    </td>
   </tr>
 </table>
 
-
-
-
-
-4. NVC Steps for the Text
-
-   ![Rephrase 4](screenshots/Rephrase_4.png)
-
 ### Responding to someone else's words
-
-1. Enter Text
-
-   ![Respond 1](screenshots/Respond_1.png)
-
-2. Default Response
-
-   ![Respond 2](screenshots/Respond_2.png)
-
-4. NVC Steps for the Text
-
-   ![Respond 4](screenshots/Respond_3.png)
+<table>
+  <tr>
+    <td>
+      <img src="Screenshots/Respond_1.png" alt="Rephrase 1">
+    </td>
+    <td>
+      <img src="Screenshots/Respond_2.png" alt="Rephrase 2">
+    </td>
+    <td>
+      <img src="Screenshots/Respond_3.png" alt="Rephrase 3">
+    </td>
+  </tr>
+</table>
 
 ## Requirements
 
