@@ -42,6 +42,9 @@ ChatNVC is an iOS app designed to help users translate given phrases into Nonvio
     <td>
       <img src="Screenshots/Respond_3.png" alt="Respond 3">
     </td>
+    <td>
+      <img src="Screenshots/Respond_4.png" alt="Respond 3">
+    </td>
   </tr>
 </table>
 
