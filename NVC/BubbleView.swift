@@ -1,0 +1,139 @@
+//
+//  BubbleView.swift
+//  NVC
+//
+//  Created by Jesse Shepard & ChatGPT on 6/5/23.
+//
+
+import SwiftUI
+import AVFoundation
+
+struct BubbleView: View {
+    @State private var isPressed = false
+    @Binding var poppedCount: Int
+    @ObservedObject var viewModel = BubbleViewModel()
+    
+    var body: some View {
+        Button(action: {
+            print("isPressed before toggle: \(isPressed)")
+            isPressed.toggle()
+            print("isPressed after toggle: \(isPressed)")
+            if isPressed {
+                print("Bubble was pressed")
+                viewModel.playPopSound()
+                poppedCount += 1
+            } else {
+                viewModel.playUnpopSound()
+            }
+        }) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 50)
+                    .fill(RadialGradient(gradient: Gradient(colors: [Color(red: Double(233) / 255, green: Double(196) / 255, blue: Double(106) / 255), Color(red: Double(90) / 255, green: Double(167) / 255, blue: Double(134) / 255)]), center: .center, startRadius: 15, endRadius: 35))
+                    .frame(width: 75, height: 75)
+                    .scaleEffect(isPressed ? 0.8 : 1.0)
+                RoundedRectangle(cornerRadius: 50)
+                    .stroke(Color(red: Double(34) / 255, green: Double(129) / 255, blue: Double(118) / 255), lineWidth: isPressed ? 5 : 2)
+                    .frame(width: 75, height: 75)
+                    .scaleEffect(isPressed ? 0.8 : 1.0)
+            }
+            .animation(.spring())
+        }
+    }
+}
+
+struct BubblePopView: View {
+    @State private var isLandscape = false
+    let portraitColumns = 5
+    let landscapeColumns = 8
+    let portraitRows = 5
+    let landscapeRows = 3
+    @State private var poppedCount = 0
+
+    var body: some View {
+        GeometryReader { geometry in
+            VStack {
+                Spacer()
+                Text("Your NVC AI is thinking of how to communicate the underlying feelings and needs. Breathe a moment and pop some bubbles while you wait.")
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                    .font(.system(size: 16))
+                    .minimumScaleFactor(0.5)
+                    .fixedSize(horizontal: false, vertical: true)
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 20), count: isLandscape ? landscapeColumns : portraitColumns), spacing: 20) {
+                    ForEach(1...((isLandscape ? landscapeColumns * landscapeRows : portraitColumns * portraitRows)), id: \.self) { _ in
+                        BubbleView(poppedCount: $poppedCount)
+                            .frame(maxWidth: 60, maxHeight: 60)  // Controlling the bubble's size
+                    }
+                }
+                .padding(.horizontal) // Adding padding to make sure the grid fits within the screen
+                Spacer()
+            }
+            .onAppear {
+                isLandscape = geometry.size.width > geometry.size.height
+            }
+            .onChange(of: geometry.size) { size in
+                isLandscape = size.width > size.height
+            }
+            .onChange(of: poppedCount) { _ in
+                if poppedCount >= (isLandscape ? landscapeColumns * landscapeRows : portraitColumns * portraitRows) {
+                    poppedCount = 0
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(red: Double(38) / 255, green: Double(70) / 255, blue: Double(83) / 255).opacity(0.8))
+    }
+}
+
+struct BubbleView_Previews: PreviewProvider {
+    @State static var dummyPoppedCount = 0
+    
+    static var previews: some View {
+        BubbleView(poppedCount: $dummyPoppedCount)
+    }
+}
+
+class BubbleViewModel: ObservableObject {
+    var players: [AVAudioPlayer?] = []
+    
+    init() {
+        setupAudioSession()
+    }
+    
+    func playPopSound() {
+         playSound(named: "pop")
+     }
+
+     func playUnpopSound() {
+         playSound(named: "unpop") // replace with your actual unpop sound file name
+     }
+    
+    private func playSound(named soundName: String) {
+            if let bundlePath = Bundle.main.path(forResource: soundName, ofType: "mp3") {
+                let url = URL(fileURLWithPath: bundlePath)
+                do {
+                    if let availablePlayer = players.first(where: { $0?.isPlaying == false }) {
+                        availablePlayer?.play()
+                    } else {
+                        let player = try AVAudioPlayer(contentsOf: url)
+                        players.append(player)
+                        //players.volume = 1.0
+                        player.play()
+                    }
+                } catch {
+                    print("audioPlayer error \(error.localizedDescription)")
+                }
+            }
+        }
+    
+    private func setupAudioSession() {
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(.playback, mode: .default)
+            try audioSession.setActive(true, options: [])
+        } catch {
+            print("Setting up the audio session failed: \(error)")
+        }
+    }
+}
