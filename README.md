@@ -16,7 +16,7 @@ ChatNVC is an iOS app designed to help users translate given phrases into Nonvio
 
 ### Rephrase my own words
 
-1. Enter Text ![Rephrase 1](https://github.com/JSAgile/ChatNVC/blob/main/Screenshots/Rephrase_1.png)
+1. Enter Text ![Rephrase 1](https://github.com/JSAgile/ChatNVC/blob/main/Screenshots/Rephrase_1.png width="25%" height="25%")
 
 2. Default Response
 
