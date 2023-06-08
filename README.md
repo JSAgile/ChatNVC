@@ -16,16 +16,16 @@ ChatNVC is an iOS app designed to help users translate given phrases into Nonvio
 <table>
   <tr>
     <td>
-      <img src="Screenshots/Rephrase_1.png" alt="Rephrase 1">
+      <img src="Screenshots/Rephrase_1.png" alt="Entering text to be rephrased">
     </td>
     <td>
-      <img src="Screenshots/Rephrase_2.png" alt="Rephrase 2">
+      <img src="Screenshots/Rephrase_2.png" alt="Displaying default NVC translation">
     </td>
     <td>
-      <img src="Screenshots/Rephrase_3.png" alt="Rephrase 3">
+      <img src="Screenshots/Rephrase_3.png" alt="Displaying positive NVC translation">
     </td>
     <td>
-      <img src="Screenshots/Rephrase_4.png" alt="Rephrase 3">
+      <img src="Screenshots/Rephrase_4.png" alt="Displaying NVC steps analysis">
     </td>
   </tr>
 </table>
@@ -34,16 +34,16 @@ ChatNVC is an iOS app designed to help users translate given phrases into Nonvio
 <table>
   <tr>
     <td>
-      <img src="Screenshots/Respond_1.png" alt="Respond 1">
+      <img src="Screenshots/Respond_1.png" alt="Displaying default NVC response simulation">
     </td>
     <td>
-      <img src="Screenshots/Respond_2.png" alt="Respond 2">
+      <img src="Screenshots/Respond_2.png" alt="Displaying informal NVC response simulation">
     </td>
     <td>
-      <img src="Screenshots/Respond_3.png" alt="Respond 3">
+      <img src="Screenshots/Respond_4.png" alt="Displaying light NVC response simulation">
     </td>
     <td>
-      <img src="Screenshots/Respond_4.png" alt="Respond 3">
+      <img src="Screenshots/Respond_3.png" alt="Displaying NVC steps analysis">
     </td>
   </tr>
 </table>
