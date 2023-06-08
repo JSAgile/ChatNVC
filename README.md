@@ -1,7 +1,5 @@
 # ChatNVC
 
-![Splash](screenshots/Splash.png)
-
 ChatNVC is an iOS app designed to help users translate given phrases into Nonviolent Communication (NVC), utilizing Marshall Rosenberg's techniques as outlined in his book of the same name. This is an unofficial app for practicing NVC.
 
 ## Features
@@ -15,36 +13,37 @@ ChatNVC is an iOS app designed to help users translate given phrases into Nonvio
 ## Screenshots
 
 ### Rephrase my own words
-
-1. Enter Text
-
-   ![Rephrase 1](screenshots/Rephrase_1.png)
-
-2. Default Response
-
-   ![Rephrase 2](screenshots/Rephrase_2.png)
-
-3. Positive Response
-
-   ![Rephrase 3](screenshots/Rephrase_3.png)
-
-4. NVC Steps for the Text
-
-   ![Rephrase 4](screenshots/Rephrase_4.png)
+<table>
+  <tr>
+    <td>
+      <img src="Screenshots/Rephrase_1.png" alt="Rephrase 1">
+    </td>
+    <td>
+      <img src="Screenshots/Rephrase_2.png" alt="Rephrase 2">
+    </td>
+    <td>
+      <img src="Screenshots/Rephrase_3.png" alt="Rephrase 3">
+    </td>
+    <td>
+      <img src="Screenshots/Rephrase_4.png" alt="Rephrase 3">
+    </td>
+  </tr>
+</table>
 
 ### Responding to someone else's words
-
-1. Enter Text
-
-   ![Respond 1](screenshots/Respond_1.png)
-
-2. Default Response
-
-   ![Respond 2](screenshots/Respond_2.png)
-
-4. NVC Steps for the Text
-
-   ![Respond 4](screenshots/Respond_3.png)
+<table>
+  <tr>
+    <td>
+      <img src="Screenshots/Respond_1.png" alt="Respond 1">
+    </td>
+    <td>
+      <img src="Screenshots/Respond_2.png" alt="Respond 2">
+    </td>
+    <td>
+      <img src="Screenshots/Respond_3.png" alt="Respond 3">
+    </td>
+  </tr>
+</table>
 
 ## Requirements
 
