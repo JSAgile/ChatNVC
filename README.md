@@ -16,15 +16,15 @@ ChatNVC is an iOS app designed to help users translate given phrases into Nonvio
 
 ### Rephrase my own words
 
-1. Enter Text ![Rephrase 1](https://github.com/JSAgile/ChatNVC/blob/main/Screenshots/Rephrase_1.png width="25%" height="25%")
+1.  <img src="Screenshots/Rephrase_1.png" alt="Rephrase 1" width="15%" height="15%">
 
 2. Default Response
 
-   <img src="Screenshots/Rephrase_2.png" alt="Rephrase 2" width="25%" height="25%">
+   <img src="Screenshots/Rephrase_2.png" alt="Rephrase 2" width="15%" height="15%">
 
 3. Positive Response
 
-   ![Rephrase 3](screenshots/Rephrase_3.png)
+   <img src="Screenshots/Rephrase_3.png" alt="Rephrase 3" width="15%" height="15%">
 
 4. NVC Steps for the Text
 
