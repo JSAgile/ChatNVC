@@ -1,6 +1,6 @@
 # ChatNVC
 
-![Splash](screenshots/Splash.png)
+<img src="Screenshots/Splash.png" alt="Splash Screen" height="50%" width="50%">
 
 ChatNVC is an iOS app designed to help users translate given phrases into Nonviolent Communication (NVC), utilizing Marshall Rosenberg's techniques as outlined in his book of the same name. This is an unofficial app for practicing NVC.
 
@@ -36,13 +36,13 @@ ChatNVC is an iOS app designed to help users translate given phrases into Nonvio
 <table>
   <tr>
     <td>
-      <img src="Screenshots/Respond_1.png" alt="Rephrase 1">
+      <img src="Screenshots/Respond_1.png" alt="Respond 1">
     </td>
     <td>
-      <img src="Screenshots/Respond_2.png" alt="Rephrase 2">
+      <img src="Screenshots/Respond_2.png" alt="Respond 2">
     </td>
     <td>
-      <img src="Screenshots/Respond_3.png" alt="Rephrase 3">
+      <img src="Screenshots/Respond_3.png" alt="Respond 3">
     </td>
   </tr>
 </table>
