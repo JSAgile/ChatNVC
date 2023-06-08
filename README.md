@@ -20,7 +20,7 @@ ChatNVC is an iOS app designed to help users translate given phrases into Nonvio
 
 2. Default Response
 
-   <img src="Screenshots/Rephrase_2.png" alt="Rephrase 2" width="500">
+   <img src="Screenshots/Rephrase_2.png" alt="Rephrase 2" width="25%" height="25%">
 
 3. Positive Response
 
