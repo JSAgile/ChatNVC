@@ -12,7 +12,6 @@
 		D0CEA6137691B235F084441A /* Pods_NVCTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAD3ED79F3962B49B3C6ADC /* Pods_NVCTests.framework */; };
 		E27820472A2E667000D3A52A /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27820462A2E667000D3A52A /* AboutView.swift */; };
 		E27820492A2E669F00D3A52A /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27820482A2E669F00D3A52A /* SplashScreen.swift */; };
-		E278204B2A2E66D200D3A52A /* APIKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E278204A2A2E66D200D3A52A /* APIKeyView.swift */; };
 		E278204D2A2E6C6E00D3A52A /* RephraseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E278204C2A2E6C6E00D3A52A /* RephraseView.swift */; };
 		E278204F2A2E6F0E00D3A52A /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E278204E2A2E6F0E00D3A52A /* MainView.swift */; };
 		E27820512A2EB3DF00D3A52A /* BubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27820502A2EB3DF00D3A52A /* BubbleView.swift */; };
@@ -28,7 +27,6 @@
 		E2EEF84F2A1AAF7200431C19 /* NVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EEF84E2A1AAF7200431C19 /* NVCUITests.swift */; };
 		E2EEF8512A1AAF7200431C19 /* NVCUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EEF8502A1AAF7200431C19 /* NVCUITestsLaunchTests.swift */; };
 		E2EEF85E2A1AAFAB00431C19 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EEF85D2A1AAFAB00431C19 /* API.swift */; };
-		E2EEF8602A1AB1AF00431C19 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EEF85F2A1AB1AF00431C19 /* SwiftUIView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,7 +60,6 @@
 		E22A897A2A2F815A00B6081E /* Speech.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Speech.framework; path = System/Library/Frameworks/Speech.framework; sourceTree = SDKROOT; };
 		E27820462A2E667000D3A52A /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		E27820482A2E669F00D3A52A /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
-		E278204A2A2E66D200D3A52A /* APIKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyView.swift; sourceTree = "<group>"; };
 		E278204C2A2E6C6E00D3A52A /* RephraseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RephraseView.swift; sourceTree = "<group>"; };
 		E278204E2A2E6F0E00D3A52A /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		E27820502A2EB3DF00D3A52A /* BubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleView.swift; sourceTree = "<group>"; };
@@ -80,7 +77,6 @@
 		E2EEF84E2A1AAF7200431C19 /* NVCUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVCUITests.swift; sourceTree = "<group>"; };
 		E2EEF8502A1AAF7200431C19 /* NVCUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVCUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		E2EEF85D2A1AAFAB00431C19 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
-		E2EEF85F2A1AB1AF00431C19 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,10 +144,8 @@
 				E2EEF8332A1AAF7000431C19 /* NVCApp.swift */,
 				E2EEF8372A1AAF7100431C19 /* Assets.xcassets */,
 				E2EEF85D2A1AAFAB00431C19 /* API.swift */,
-				E2EEF85F2A1AB1AF00431C19 /* SwiftUIView.swift */,
 				E27820462A2E667000D3A52A /* AboutView.swift */,
 				E27820482A2E669F00D3A52A /* SplashScreen.swift */,
-				E278204A2A2E66D200D3A52A /* APIKeyView.swift */,
 				E2EEF8392A1AAF7100431C19 /* Preview Content */,
 			);
 			path = NVC;
@@ -219,6 +213,7 @@
 				E2EEF82D2A1AAF7000431C19 /* Frameworks */,
 				E2EEF82E2A1AAF7000431C19 /* Resources */,
 				057B2E9966B575A5B2DA8815 /* [CP] Embed Pods Frameworks */,
+				E2809FC52A329FFD00F6F688 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -447,6 +442,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E2809FC52A329FFD00F6F688 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint >/dev/null; then\n    swiftlint lint --path NVC\nelse\n    echo \"warning: Swiftlint not installed, download from https://gitub.com/realm/SwiftLint\"\nfi\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -460,8 +473,6 @@
 				E27820512A2EB3DF00D3A52A /* BubbleView.swift in Sources */,
 				E27820472A2E667000D3A52A /* AboutView.swift in Sources */,
 				E2EEF85E2A1AAFAB00431C19 /* API.swift in Sources */,
-				E278204B2A2E66D200D3A52A /* APIKeyView.swift in Sources */,
-				E2EEF8602A1AB1AF00431C19 /* SwiftUIView.swift in Sources */,
 				E2EEF8342A1AAF7000431C19 /* NVCApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -619,6 +630,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"NVC/Preview Content\"";
@@ -653,6 +665,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"NVC/Preview Content\"";

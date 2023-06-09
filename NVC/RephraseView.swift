@@ -8,117 +8,171 @@
 import SwiftUI
 import Speech
 
+struct Prompts {
+    static let rephrase = """
+    ORIGINAL TEXT: "%@"
+    1: {Provide a rephrased version of the ORIGINAL TEXT,
+    utilizing Marshall Rosenberg's techniques from his book Nonviolent Communication,
+    utilizing all four steps of the NVC process
+    (Sharing observations, Sharing feelings, Sharing needs, and Requesting Action)}
+    2: {Provide a casual, informal rephrased version of the ORIGINAL TEXT,
+    utilizing Marshall Rosenberg's techniques from his book Nonviolent Communication,
+    utilizing all four steps of the NVC process
+    (Sharing observations, Sharing feelings, Sharing needs, and Requesting Action)}
+    3: {Provide an empathetic, positive rephrased version of the ORIGINAL TEXT,
+    utilizing Marshall Rosenberg's techniques from his book Nonviolent Communication,
+    utilizing all four steps of the NVC process
+    (Sharing observations, Sharing feelings, Sharing needs, and Requesting Action)}
+    4: {Provide a light-hearted rephrased version of the ORIGINAL TEXT,
+    utilizing Marshall Rosenberg's techniques from his book Nonviolent Communication,
+    utilizing all four steps of the NVC process
+    (Sharing observations, Sharing feelings, Sharing needs, and Requesting Action)}
+    5: {Analyze how the original text (not the rephrased text) meets,
+    or fails to meet, NVC step #1 - If it fails, how could it meet it?}
+    6: {Analyze how the original text (not the rephrased text) meets,
+    or fails to meet, NVC step #2 - If it fails, how could it meet it?}
+    7: {Analyze how the original text (not the rephrased text) meets,
+    or fails to meet, NVC step #3 - If it fails, how could it meet it?}
+    8: {Analyze how the original text (not the rephrased text) meets,
+    or fails to meet, NVC step #4 - If it fails, how could it meet it?}
+    """
+    static let respond = """
+    ORIGINAL TEXT: "%@"
+    You are responding to the user's ORIGINAL TEXT in a roleplay scenario.
+    You are demonstrating what an appropriate, nonviolent response could be.
+    1: {Simulate a nonviolent response to the ORIGINAL TEXT,
+    utilizing Marshall Rosenberg's techniques from his book Nonviolent Communication,
+    utilizing all four steps of the NVC process
+    (Sharing observations, Sharing feelings, Sharing needs, and Requesting Action)}
+    2: {Simulate a casual, informal nonviolent response to the ORIGINAL TEXT,
+    utilizing Marshall Rosenberg's techniques from his book Nonviolent Communication,
+    utilizing all four steps of the NVC process
+    (Sharing observations, Sharing feelings, Sharing needs, and Requesting Action)}
+    3: {Simulate an empathetic, positive nonviolent response to the ORIGINAL TEXT,
+    utilizing Marshall Rosenberg's techniques from his book Nonviolent Communication,
+    utilizing all four steps of the NVC process
+    (Sharing observations, Sharing feelings, Sharing needs, and Requesting Action)}
+    4: {Simulate a light-hearted nonviolent response to the ORIGINAL TEXT,
+    utilizing Marshall Rosenberg's techniques from his book Nonviolent Communication,
+    utilizing all four steps of the NVC process
+    (Sharing observations, Sharing feelings, Sharing needs, and Requesting Action)}
+    5: {Analyze how the original text (not the response text) meets,
+    or fails to meet, NVC step #1 - If it fails, how could it meet it?}
+    6: {Analyze how the original text (not the response text) meets,
+    or fails to meet, NVC step #2 - If it fails, how could it meet it?}
+    7: {Analyze how the original text (not the response text) meets,
+    or fails to meet, NVC step #3 - If it fails, how could it meet it?}
+    8: {Analyze how the original text (not the response text) meets,
+    or fails to meet, NVC step #4 - If it fails, how could it meet it?}
+    """
+}
+
 struct RephraseView: View {
-    @ObservedObject var viewModel = ChatViewModel()
+    @ObservedObject var viewModel = SpeechToText()
     @State private var selectedRephraseType = "Default"
     @EnvironmentObject var appState: AppState
-    
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
-    
+
     let rephraseTypes = ["Default", "Informal", "Positive", "Light", "NVC Steps"]
-    
+
     var body: some View {
-            ZStack {
-                Color(red: Double(38) / 255, green: Double(70) / 255, blue: Double(83) / 255)
-                    .edgesIgnoringSafeArea(.all)
-                
-                VStack {
-                    GeometryReader { geometry in
+        ZStack {
+            Color(red: Double(38) / 255, green: Double(70) / 255, blue: Double(83) / 255)
+                .edgesIgnoringSafeArea(.all)
+            VStack {
+                GeometryReader { _ in
+                    VStack {
                         VStack {
-                            VStack {
-                                buildContent()
-                                    .padding(.top)
-                                    .padding(.horizontal)
-                            }
-                            .frame(maxWidth: .infinity)
-                            
-                            responseText()
+                            buildContent()
+                                .padding(.top)
+                                .padding(.horizontal)
                         }
                         .frame(maxWidth: .infinity)
+                        responseText()
                     }
-                    Picker("Rephrase type", selection: $selectedRephraseType) {
-                        ForEach(rephraseTypes, id: \.self) {
-                            Text($0)
-                        }
+                    .frame(maxWidth: .infinity)
+                }
+                Picker("Rephrase type", selection: $selectedRephraseType) {
+                    ForEach(rephraseTypes, id: \.self) {
+                        Text($0)
                     }
-                    .pickerStyle(SegmentedPickerStyle())
-                    .accentColor(Color.red)
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .onAppear {
-                    viewModel.setAppState(appState)
-                }
-                if viewModel.isFetching == true {
-                    BubblePopView()
-                }
+                .pickerStyle(SegmentedPickerStyle())
+                .accentColor(Color.red)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .onAppear {
+                viewModel.setAppState(appState)
+            }
+            if viewModel.isFetching == true {
+                BubblePopView()
+            }
         }
-        
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
 
     @ViewBuilder
-        func buildContent() -> some View {
-            if self.viewModel.isRecording {
-                Text("Recording...")
-                    .font(.largeTitle)
-                    .foregroundColor((Color(red: Double(231) / 255, green: Double(111) / 255, blue: Double(81) / 255)))
-            }
-            
-            VStack {
-                HStack {
-                    TextField("Enter text to be rephrased into NVC", text: self.$viewModel.userText)
-                        .padding()
-                        .background(Color.white)
-                        .foregroundColor(.black)
-                        .accentColor(.primary)
-                        .cornerRadius(10)
-                }
-                .frame(maxWidth: .infinity, alignment: .center)
-                HStack {
-                    modeToggle()
-                    recordingButton()
-                    resetButton()
-                    analyzeButton()
-                }
-                .frame(maxWidth: .infinity, alignment: .center)
-            }
-            .frame(maxWidth: .infinity)
+    func buildContent() -> some View {
+        if self.viewModel.isRecording {
+            Text("Recording...")
+                .font(.largeTitle)
+                .foregroundColor((Color(red: Double(231) / 255, green: Double(111) / 255, blue: Double(81) / 255)))
         }
+        VStack {
+            HStack {
+                TextField("Enter text to be rephrased into NVC", text: self.$viewModel.userText)
+                    .padding()
+                    .background(Color.white)
+                    .foregroundColor(.black)
+                    .accentColor(.primary)
+                    .cornerRadius(10)
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+            HStack {
+                modeToggle()
+                recordingButton()
+                resetButton()
+                analyzeButton()
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+        }
+        .frame(maxWidth: .infinity)
+    }
 
     @ViewBuilder
     func responseText() -> some View {
         if viewModel.outputArray.count > 0 {
             ScrollView {
                 VStack {
-                    if selectedRephraseType == "Default" {
+                    if selectedRephraseType == "Default" && viewModel.outputArray.indices.contains(0) {
                         Text(viewModel.outputArray[0])
                             .padding()
                             .foregroundColor(.black)
                             .font(.body)
                             .background(Color.white.opacity(0.8))
                             .cornerRadius(10)
-                    } else if selectedRephraseType == "Informal" {
+                    } else if selectedRephraseType == "Informal" && viewModel.outputArray.indices.contains(1) {
                         Text(viewModel.outputArray[1])
                             .padding()
                             .foregroundColor(.black)
                             .font(.body)
                             .background(Color.white.opacity(0.8))
                             .cornerRadius(10)
-                    } else if selectedRephraseType == "Positive" {
+                    } else if selectedRephraseType == "Positive" && viewModel.outputArray.indices.contains(2) {
                         Text(viewModel.outputArray[2])
                             .padding()
                             .foregroundColor(.black)
                             .font(.body)
                             .background(Color.white.opacity(0.8))
                             .cornerRadius(10)
-                    } else if selectedRephraseType == "Light" {
+                    } else if selectedRephraseType == "Light" && viewModel.outputArray.indices.contains(3) {
                         Text(viewModel.outputArray[3])
                             .padding()
                             .foregroundColor(.black)
                             .font(.body)
                             .background(Color.white.opacity(0.8))
                             .cornerRadius(10)
-                    } else if selectedRephraseType == "NVC Steps" {
+                    } else if selectedRephraseType == "NVC Steps" && viewModel.outputArray.indices.contains(4...7) {
                         ForEach(viewModel.outputArray[4...7], id: \.self) { text in
                             Text(text)
                                 .padding()
@@ -127,6 +181,13 @@ struct RephraseView: View {
                                 .background(Color.white.opacity(0.8))
                                 .cornerRadius(10)
                         }
+                    } else {
+                        Text("The API didn't fully understand the instructions. Please try again.")
+                            .padding()
+                            .foregroundColor(.black)
+                            .font(.body)
+                            .background(Color.white.opacity(0.8))
+                            .cornerRadius(10)
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -135,7 +196,6 @@ struct RephraseView: View {
         }
     }
 
-
     @ViewBuilder
     func buildControls() -> some View {
         if self.viewModel.isRecording {
@@ -143,7 +203,6 @@ struct RephraseView: View {
                 .font(.largeTitle)
                 .foregroundColor((Color(red: Double(231) / 255, green: Double(111) / 255, blue: Double(81) / 255)))
         }
-        
         VStack {
             HStack {
                 TextField("Enter text to be rephrased into NVC", text: self.$viewModel.userText)
@@ -164,112 +223,113 @@ struct RephraseView: View {
             }
             .frame(maxWidth: .infinity, alignment: .center)
             buildButtons()
-            //HStack {
-                //buildButtons()
-            //}
         }
         .frame(maxWidth: .infinity)
     }
 
     @ViewBuilder
     func buildButtons() -> some View {
-    
         GeometryReader { geometry in
             if geometry.size.width < 500 {
-                VStack {
-                    HStack {
-                        Toggle(isOn: $viewModel.showDefault) {
-                            Image(systemName: "Default")
-                                .foregroundColor(Color.white)
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-                        }
-                        Toggle(isOn: $viewModel.showInformal) {
-                            Image(systemName: "bubble.right")
-                                .foregroundColor(Color.white)
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-                        }
-                    }
-                    .frame(maxWidth: .infinity, alignment: .center)
-                
-                    HStack {
-                        Toggle(isOn: $viewModel.showPositive) {
-                            Text("Positive")
-                                .foregroundColor(Color.white)
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-                        }
-                        Toggle(isOn: $viewModel.showLight) {
-                            Text("Light")
-                                .foregroundColor(Color.white)
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-                        }
-                        Toggle(isOn: $viewModel.showSteps) {
-                            Text("NVC Steps")
-                                .foregroundColor(Color.white)
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-                        }
-                    }
-                    .frame(maxWidth: .infinity, alignment: .center)
-                }
-                .frame(maxWidth: .infinity)
-                
+                buildButtonsForSmallWidth()
             } else {
-                HStack {
-                    Toggle(isOn: $viewModel.showDefault)
-                    {
-                        Text("Default")
-                            .foregroundColor(Color.white)
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                    }
-                    Toggle(isOn: $viewModel.showInformal)
-                        {
-                        Text("Informal")
-                            .foregroundColor(Color.white)
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                    }
-                    Toggle(isOn: $viewModel.showPositive) {
-                        Text("Positive")
-                            .foregroundColor(Color.white)
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                    }
-                    Toggle(isOn: $viewModel.showLight) {
-                        Text("Light")
-                            .foregroundColor(Color.white)
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                    }
-                    Toggle(isOn: $viewModel.showSteps) {
-                        Text("NVC Steps")
-                            .foregroundColor(Color.white)
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .center)
+                buildButtonsForLargeWidth()
             }
         }
     }
-    
-    
+
+    func buildButtonsForSmallWidth() -> some View {
+        VStack {
+            HStack {
+                Toggle(isOn: $viewModel.showDefault) {
+                    Image(systemName: "Default")
+                        .foregroundColor(Color.white)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                }
+                Toggle(isOn: $viewModel.showInformal) {
+                    Image(systemName: "bubble.right")
+                        .foregroundColor(Color.white)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+            HStack {
+                Toggle(isOn: $viewModel.showPositive) {
+                    Text("Positive")
+                        .foregroundColor(Color.white)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                }
+                Toggle(isOn: $viewModel.showLight) {
+                    Text("Light")
+                        .foregroundColor(Color.white)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                }
+                Toggle(isOn: $viewModel.showSteps) {
+                    Text("NVC Steps")
+                        .foregroundColor(Color.white)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+        }
+        .frame(maxWidth: .infinity)
+    }
+
+    func buildButtonsForLargeWidth() -> some View {
+        HStack {
+            Toggle(isOn: $viewModel.showDefault) {
+                Text("Default")
+                    .foregroundColor(Color.white)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+            }
+            Toggle(isOn: $viewModel.showInformal) {
+                Text("Informal")
+                    .foregroundColor(Color.white)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+            }
+            Toggle(isOn: $viewModel.showPositive) {
+                Text("Positive")
+                    .foregroundColor(Color.white)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+            }
+            Toggle(isOn: $viewModel.showLight) {
+                Text("Light")
+                    .foregroundColor(Color.white)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+            }
+            Toggle(isOn: $viewModel.showSteps) {
+                Text("NVC Steps")
+                    .foregroundColor(Color.white)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .center)
+    }
+
     func modeToggle() -> some View {
-        Button(action: {
+        let action = {
             appState.isRespondMode.toggle()
             print("isRespondMode after toggling is now:\(appState.isRespondMode)")
-        }) {
-            Image(systemName: appState.isRespondMode ? "bubble.left.and.bubble.right.fill" : "arrow.triangle.2.circlepath")
+        }
+        return Button(action: action) {
+            Image(systemName: appState.isRespondMode ?
+                  "bubble.left.and.bubble.right.fill" : "arrow.triangle.2.circlepath")
         }
         .padding()
         .foregroundColor(Color(.white))
         .background(Color(red: Double(156) / 255, green: Double(163) / 255, blue: Double(219) / 255))
         .cornerRadius(10)
     }
-    
 
     func recordingButton() -> some View {
-        Button(action: {
+        let action = {
             if self.viewModel.isRecording {
                 self.viewModel.stopRecording()
             } else {
                 self.viewModel.startRecording()
             }
-        }) {
+        }
+        return Button(action: action) {
             Image(systemName: self.viewModel.isRecording ? "stop.fill" : "record.circle")
                 .foregroundColor(.white)
         }
@@ -279,10 +339,11 @@ struct RephraseView: View {
     }
 
     func resetButton() -> some View {
-        Button(action: {
+        let action = {
             self.viewModel.resetRecording()
-            viewModel.outputArray = [] // Should reset the text so that it stops displaying
-        }) {
+            viewModel.outputArray = []
+        }
+        return Button(action: action) {
             Image(systemName: "arrow.counterclockwise")
                 .foregroundColor(.white)
         }
@@ -292,13 +353,13 @@ struct RephraseView: View {
     }
 
     func analyzeButton() -> some View {
-        Button(action: {
+        let action = {
             print("Analyze button pressed")
-            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil) // Should collapse the keyboard
-
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
             self.viewModel.callAPI(appState: appState)
             self.viewModel.stopRecording()
-        }) {
+        }
+        return Button(action: action) {
             if viewModel.isFetching {
                 ProgressView()
                     .scaleEffect(1.5, anchor: .center)
@@ -310,10 +371,10 @@ struct RephraseView: View {
         .padding()
         .background(Color(red: Double(42) / 255, green: Double(157) / 255, blue: Double(143) / 255))
         .cornerRadius(10)
-        }
     }
+}
 
-class ChatViewModel: ObservableObject {
+class SpeechToText: ObservableObject {
     @Published var userText = ""
     @Published var output = ""
     @Published var backgroundColor: Color = .white
@@ -326,12 +387,11 @@ class ChatViewModel: ObservableObject {
     @Published var showLight = false
     @Published var showSteps = false
     @Published var recordedText: String = ""
-    @Published var recognitionTask: SFSpeechRecognitionTask? = nil
+    @Published var recognitionTask: SFSpeechRecognitionTask?
     @Published var outputArray: [String] = []
     @Published private var recognitionRequestWrapper = RecognitionRequestWrapper()
-    
     var appState: AppState?
-    
+
     func setAppState(_ appState: AppState) {
         self.appState = appState
     }
@@ -356,11 +416,13 @@ class ChatViewModel: ObservableObject {
             recognitionRequestWrapper.request?.endAudio()
             audioEngine.inputNode.removeTap(onBus: 0)
         }
-            
         DispatchQueue.main.async {
             self.isRecording = false
             print("This is the recorded text \(self.recordedText)")
-            self.userText = self.recordedText
+            // Only update userText if recordedText is not empty
+            if !self.recordedText.isEmpty {
+                self.userText = self.recordedText
+            }
             print("This is the prompt \(self.userText)")
         }
     }
@@ -414,8 +476,9 @@ class ChatViewModel: ObservableObject {
         }
 
         let recordingFormat = inputNode.outputFormat(forBus: 0)
-        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer: AVAudioPCMBuffer, when: AVAudioTime) in
-            self.recognitionRequestWrapper.request?.append(buffer)
+        inputNode.installTap(
+            onBus: 0, bufferSize: 1024, format: recordingFormat) {(buffer: AVAudioPCMBuffer, _: AVAudioTime)
+            in self.recognitionRequestWrapper.request?.append(buffer)
         }
 
         audioEngine.prepare()
@@ -424,85 +487,52 @@ class ChatViewModel: ObservableObject {
         isRecording = true
     }
 
+    func processAPIResult(_ result: Result<String, APIError>) {
+        DispatchQueue.main.async {
+            self.isFetching = false
+            switch result {
+            case .success(let response):
+                let trimmedResponse = response.trimmingCharacters(in: .newlines)
+                print("API response received: \(trimmedResponse)")
+                self.outputArray = self.parseAPIResponse(trimmedResponse)
+            case .failure(let error):
+                print("API error received: \(error)")
+                self.output = "Error: \(error.localizedDescription)"
+            }
+        }
+    }
+
+    func parseAPIResponse(_ response: String) -> [String] {
+        var resultArray: [String] = []
+        let lines = response.split(separator: "\n")
+        for line in lines {
+            let indexColon = line.firstIndex(of: ":")
+            let indexPeriod = line.firstIndex(of: ".")
+            if let index = indexColon ?? indexPeriod {
+                let valueStartIndex = line.index(index, offsetBy: 2)
+                let value = String(line[valueStartIndex...]).trimmingCharacters(in: .whitespaces)
+                resultArray.append(value)
+            }
+        }
+        return resultArray
+    }
+
     func callAPI(appState: AppState) {
-        print(FileManager.default.currentDirectoryPath)
-
-        
-        print("Call API function started with prompt: \(userText)") // Debug print
+        print("Call API function started with prompt: \(userText)")
         self.isFetching = true
-        
-        let respondPrompt = """
-        ORIGINAL TEXT: "\(userText)"
-        
-        You are responding to the user's ORIGINAL TEXT in a roleplay scenario. You are demonstrating what an appropriate, nonviolent response could be.
-        
-        1: {Simulate a nonviolent response to the ORIGINAL TEXT, utilizing Marshall Rosenberg's techniques from his book Nonviolent Communication, utilizing all four steps of the NVC process (Sharing observations, Sharing feelings, Sharing needs, and Requesting Action)}
-        2: {Simulate a casual, informal nonviolent response to the ORIGINAL TEXT, utilizing Marshall Rosenberg's techniques from his book Nonviolent Communication, utilizing all four steps of the NVC process (Sharing observations, Sharing feelings, Sharing needs, and Requesting Action)}
-        3: {Simulate an empathetic, positive nonviolent response to the ORIGINAL TEXT, utilizing Marshall Rosenberg's techniques from his book Nonviolent Communication, utilizing all four steps of the NVC process (Sharing observations, Sharing feelings, Sharing needs, and Requesting Action)}
-        4: {Simulate a light-hearted nonviolent response to the ORIGINAL TEXT, utilizing Marshall Rosenberg's techniques from his book Nonviolent Communication, utilizing all four steps of the NVC process (Sharing observations, Sharing feelings, Sharing needs, and Requesting Action)}
-        5: {Analyze how the original text (not the response text) meets, or fails to meet, NVC step #1 - If it fails, how could it meet it?}
-        6: {Analyze how the original text (not the response text) meets, or fails to meet, NVC step #2 - If it fails, how could it meet it?}
-        7: {Analyze how the original text (not the response text) meets, or fails to meet, NVC step #3 - If it fails, how could it meet it?}
-        8: {Analyze how the original text (not the response text) meets, or fails to meet, NVC step #4 - If it fails, how could it meet it?}
-        """
-        let rephrasePrompt = """
-        ORIGINAL TEXT: "\(userText)"
-        
-        1: {Provide a rephrased version of the ORIGINAL TEXT, utilizing Marshall Rosenberg's techniques from his book Nonviolent Communication, utilizing all four steps of the NVC process (Sharing observations, Sharing feelings, Sharing needs, and Requesting Action)}
-        2: {Provide a casual, informal rephrased version of the ORIGINAL TEXT, utilizing Marshall Rosenberg's techniques from his book Nonviolent Communication, utilizing all four steps of the NVC process (Sharing observations, Sharing feelings, Sharing needs, and Requesting Action)}
-        3: {Provide an empathetic, positive rephrased version of the ORIGINAL TEXT, utilizing Marshall Rosenberg's techniques from his book Nonviolent Communication, utilizing all four steps of the NVC process (Sharing observations, Sharing feelings, Sharing needs, and Requesting Action)}
-        4: {Provide a light-hearted rephrased version of the ORIGINAL TEXT, utilizing Marshall Rosenberg's techniques from his book Nonviolent Communication, utilizing all four steps of the NVC process (Sharing observations, Sharing feelings, Sharing needs, and Requesting Action)}
-        5: {Analyze how the original text (not the rephrased text) meets, or fails to meet, NVC step #1 - If it fails, how could it meet it?}
-        6: {Analyze how the original text (not the rephrased text) meets, or fails to meet, NVC step #2 - If it fails, how could it meet it?}
-        7: {Analyze how the original text (not the rephrased text) meets, or fails to meet, NVC step #3 - If it fails, how could it meet it?}
-        8: {Analyze how the original text (not the rephrased text) meets, or fails to meet, NVC step #4 - If it fails, how could it meet it?}
-        """
-        
-        print("isRespondMode in callAPI:\(appState.isRespondMode)")
-            if appState.isRespondMode {
-                chosenPrompt = respondPrompt
-            } else {
-                chosenPrompt = rephrasePrompt
-            }
-            print("Prompt chosen:\(chosenPrompt)")
-        
-        getGPT3Response(prompt: chosenPrompt)
-        { result in
-            DispatchQueue.main.async {
-                self.isFetching = false
-                switch result {
-                case .success(let response):
-                    let trimmedResponse = response.trimmingCharacters(in: .newlines)
-                    print("API response received: \(trimmedResponse)")
 
-                    var resultArray: [String] = []
+        let chosenPrompt = appState.isRespondMode ?
+            String(format: Prompts.respond, userText) : String(format: Prompts.rephrase, userText)
+        print("Prompt chosen:\(chosenPrompt)")
 
-                    let lines = trimmedResponse.split(separator: "\n")
-
-                    for line in lines {
-                        let indexColon = line.firstIndex(of: ":")
-                        let indexPeriod = line.firstIndex(of: ".")
-                        
-                        if let index = indexColon ?? indexPeriod {
-                            let valueStartIndex = line.index(index, offsetBy: 2)  // Skip the ":" or "." and the space after it
-                            let value = String(line[valueStartIndex...]).trimmingCharacters(in: .whitespaces)
-                            resultArray.append(value)
-                        }
-                    }
-
-                    self.outputArray = resultArray
-                    
-                case .failure(let error):
-                    print("API error received: \(error)")
-                    self.output = "Error: \(error.localizedDescription)"
-                }
-            }
+        getGPT3Response(prompt: chosenPrompt) { result in
+            self.processAPIResult(result)
         }
     }
 }
 
 class RecognitionRequestWrapper: ObservableObject {
-    @Published var request: SFSpeechAudioBufferRecognitionRequest? = nil
+    @Published var request: SFSpeechAudioBufferRecognitionRequest?
 }
 
 class AppState: ObservableObject {
@@ -516,4 +546,3 @@ struct RephraseView_Previews: PreviewProvider {
             .previewDisplayName("iPad (10th generation)")
     }
 }
-
