@@ -19,11 +19,9 @@ var openAIKey: String {
             print("Error loading .env file")
         }
     }
-
     guard let apiKey = ProcessInfo.processInfo.environment["OpenAI_API_KEY"] else {
         fatalError("Missing API Key environment variable")
     }
-    
     return apiKey
 }
 
@@ -56,7 +54,7 @@ struct APIErrorResponse: Codable {
     let error: ErrorDetail?
 }
 
-func getGPT3Response(prompt: String, completion: @escaping (Result<String, APIError>) -> ()) {
+func getGPT3Response(prompt: String, completion: @escaping (Result<String, APIError>) -> Void) {
     let url = URL(string: "https://api.openai.com/v1/completions")!
 
     var request = URLRequest(url: url)
@@ -68,7 +66,6 @@ func getGPT3Response(prompt: String, completion: @escaping (Result<String, APIEr
                                "prompt": prompt,
                                "temperature": 0.8,
                                "max_tokens": 3000]
-    
     let jsonData = try? JSONSerialization.data(withJSONObject: json)
     request.httpBody = jsonData
 
@@ -87,7 +84,8 @@ func getGPT3Response(prompt: String, completion: @escaping (Result<String, APIEr
                       let errorMessage = response.error?.message {
                 completion(.failure(.serverError(errorMessage)))
             } else {
-                let decodingError = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to decode data"])
+                let decodingError =
+                    NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to decode data"])
                 completion(.failure(.decodingError(decodingError)))
             }
         } else {

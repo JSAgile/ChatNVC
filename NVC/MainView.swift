@@ -15,27 +15,19 @@ struct MainView: View {
     var body: some View {
         NavigationView {
             RephraseView().environmentObject(appState)
-                .navigationBarTitle(appState.isRespondMode ? "Responding to someone else's words" : "Rephrasing my own words", displayMode: .inline)
+                .navigationBarTitle(appState.isRespondMode ? "Respond to their words" : "Rephrase my own words",
+                                    displayMode: .inline)
                 .navigationBarItems(
                     leading: Button(action: {
                         self.isAboutViewPresented = true
-                    }) {
+                    }, label: {
                         Text("About")
                             .foregroundColor(.white)
-                    }
-                    .sheet(isPresented: $isAboutViewPresented) {
-                        AboutView()
-                    },
-                    trailing: Button(action: {
-                        self.isApiKeyViewPresented = true
-                    }) {
-                        Text("API Key")
-                            .foregroundColor(.white)
-                    }
-                    .sheet(isPresented: $isApiKeyViewPresented) {
-                        ApiKeyView()
-                    }
+                    })
                 )
+                .sheet(isPresented: $isAboutViewPresented) {
+                    AboutView()
+                }
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .accentColor(.white)
@@ -47,5 +39,3 @@ struct MainView_Previews: PreviewProvider {
         MainView()
     }
 }
-
-

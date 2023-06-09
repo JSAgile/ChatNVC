@@ -9,6 +9,9 @@ DerivedData/
 ## Screenshots
 .DS_Store
 
+## Linting
+swiftlint.yml
+
 ## Various settings
 *.pbxuser
 !default.pbxuser

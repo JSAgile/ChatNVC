@@ -12,7 +12,7 @@ struct BubbleView: View {
     @State private var isPressed = false
     @Binding var poppedCount: Int
     @ObservedObject var viewModel = BubbleViewModel()
-    
+
     var body: some View {
         Button(action: {
             print("isPressed before toggle: \(isPressed)")
@@ -25,19 +25,27 @@ struct BubbleView: View {
             } else {
                 viewModel.playUnpopSound()
             }
-        }) {
+        }, label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 50)
-                    .fill(RadialGradient(gradient: Gradient(colors: [Color(red: Double(233) / 255, green: Double(196) / 255, blue: Double(106) / 255), Color(red: Double(90) / 255, green: Double(167) / 255, blue: Double(134) / 255)]), center: .center, startRadius: 15, endRadius: 35))
+                    .fill(
+                        RadialGradient(gradient: Gradient(colors: [
+                            Color(red: 0.91, green: 0.77, blue: 0.42),
+                            Color(red: 0.35, green: 0.65, blue: 0.53)
+                        ]), center: .center, startRadius: 15, endRadius: 35)
+                    )
                     .frame(width: 75, height: 75)
                     .scaleEffect(isPressed ? 0.8 : 1.0)
                 RoundedRectangle(cornerRadius: 50)
-                    .stroke(Color(red: Double(34) / 255, green: Double(129) / 255, blue: Double(118) / 255), lineWidth: isPressed ? 5 : 2)
+                    .stroke(
+                        Color(red: 0.13, green: 0.51, blue: 0.46),
+                        lineWidth: isPressed ? 5 : 2
+                    )
                     .frame(width: 75, height: 75)
                     .scaleEffect(isPressed ? 0.8 : 1.0)
             }
             .animation(.spring())
-        }
+        })
     }
 }
 
@@ -53,20 +61,36 @@ struct BubblePopView: View {
         GeometryReader { geometry in
             VStack {
                 Spacer()
-                Text("Your NVC AI is thinking of how to communicate the underlying feelings and needs. Breathe a moment and pop some bubbles while you wait.")
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                    .padding()
-                    .font(.system(size: 16))
-                    .minimumScaleFactor(0.5)
-                    .fixedSize(horizontal: false, vertical: true)
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 20), count: isLandscape ? landscapeColumns : portraitColumns), spacing: 20) {
-                    ForEach(1...((isLandscape ? landscapeColumns * landscapeRows : portraitColumns * portraitRows)), id: \.self) { _ in
+                Text(
+                    "Your NVC AI is thinking of how to communicate the underlying feelings and needs." +
+                    " Breathe a moment and pop some bubbles while you wait."
+                )
+                .foregroundColor(.white)
+                .multilineTextAlignment(.center)
+                .padding()
+                .font(.system(size: 16))
+                .minimumScaleFactor(0.5)
+                .fixedSize(horizontal: false, vertical: true)
+                LazyVGrid(
+                    columns: Array(
+                        repeating: GridItem(.flexible(), spacing: 20),
+                        count: isLandscape ? landscapeColumns : portraitColumns
+                    ),
+                    spacing: 20
+                ) {
+                    ForEach(
+                        1...(
+                            isLandscape
+                                ? landscapeColumns * landscapeRows
+                                : portraitColumns * portraitRows
+                        ),
+                        id: \.self
+                    ) { _ in
                         BubbleView(poppedCount: $poppedCount)
-                            .frame(maxWidth: 60, maxHeight: 60)  // Controlling the bubble's size
+                            .frame(maxWidth: 60, maxHeight: 60)
                     }
                 }
-                .padding(.horizontal) // Adding padding to make sure the grid fits within the screen
+                .padding(.horizontal)
                 Spacer()
             }
             .onAppear {
@@ -76,19 +100,25 @@ struct BubblePopView: View {
                 isLandscape = size.width > size.height
             }
             .onChange(of: poppedCount) { _ in
-                if poppedCount >= (isLandscape ? landscapeColumns * landscapeRows : portraitColumns * portraitRows) {
+                if poppedCount >= (
+                    isLandscape
+                        ? landscapeColumns * landscapeRows
+                        : portraitColumns * portraitRows
+                ) {
                     poppedCount = 0
                 }
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(red: Double(38) / 255, green: Double(70) / 255, blue: Double(83) / 255).opacity(0.8))
+        .background(
+            Color(red: Double(38) / 255, green: Double(70) / 255, blue: Double(83) / 255)
+                .opacity(0.8)
+        )
     }
 }
 
 struct BubbleView_Previews: PreviewProvider {
     @State static var dummyPoppedCount = 0
-    
     static var previews: some View {
         BubbleView(poppedCount: $dummyPoppedCount)
     }
@@ -96,19 +126,16 @@ struct BubbleView_Previews: PreviewProvider {
 
 class BubbleViewModel: ObservableObject {
     var players: [AVAudioPlayer?] = []
-    
     init() {
         setupAudioSession()
     }
-    
     func playPopSound() {
          playSound(named: "pop")
      }
 
      func playUnpopSound() {
-         playSound(named: "unpop") // replace with your actual unpop sound file name
+         playSound(named: "unpop")
      }
-    
     private func playSound(named soundName: String) {
             if let bundlePath = Bundle.main.path(forResource: soundName, ofType: "mp3") {
                 let url = URL(fileURLWithPath: bundlePath)
@@ -118,7 +145,6 @@ class BubbleViewModel: ObservableObject {
                     } else {
                         let player = try AVAudioPlayer(contentsOf: url)
                         players.append(player)
-                        //players.volume = 1.0
                         player.play()
                     }
                 } catch {
@@ -126,7 +152,6 @@ class BubbleViewModel: ObservableObject {
                 }
             }
         }
-    
     private func setupAudioSession() {
         let audioSession = AVAudioSession.sharedInstance()
         do {

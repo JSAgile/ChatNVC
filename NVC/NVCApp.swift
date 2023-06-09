@@ -11,7 +11,6 @@ import AVFoundation
 @main
 struct NVCApp: App {
     @StateObject private var appState = AppState()
-    
     init() {
         setupAudioSession()
     }
@@ -23,7 +22,6 @@ struct NVCApp: App {
             RephraseView().environmentObject(appState)
         }
     }
-    
     func setupAudioSession() {
         let audioSession = AVAudioSession.sharedInstance()
         do {
