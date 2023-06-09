@@ -10,7 +10,7 @@ DerivedData/
 .DS_Store
 
 ## Linting
-.swiftlint.yml
+swiftlint.yml
 
 ## Various settings
 *.pbxuser
