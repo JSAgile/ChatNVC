@@ -54,7 +54,7 @@ To build and run the app, you need:
 
 - Xcode 13.0 or later
 - Swift 5.5 or later
-- An OpenAI account with a valid API key.
+- An OpenAI account with a valid API key - Can be created on the [API Keys page](https://platform.openai.com/account/api-keys).
 
 These versions are recommended as of the last update. The app might work with earlier versions of Xcode and Swift, but compatibility is not guaranteed.
 
